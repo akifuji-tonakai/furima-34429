@@ -4,55 +4,61 @@
 
 ## users テーブル
 
-| Column    | Type    | Options                   |
-| --------- | ------- | ------------------------- |
-| nickname  | string  | null: false, unique: true |
-| email     | string  | null: false               |
-| password  | string  | null: false               |
-| birthday  | integer | null: false               |
-| real_name | string  | null: false               |
+| Column             | Type    | Options                   |
+| ------------------ | ------- | ------------------------- |
+| nickname           | string  | null: false, unique: true |
+| email              | string  | null: false, unique: true |
+| encrypted_password | string  | null: false               |
+| birthday           | date    | null: false               |
+| real_first_name    | string  | null: false               |
+| real_family_name   | string  | null: false               |
+| first_furigana     | string  | null: false               |
+| family_furigana    | string  | null: false               |
 
 - has_many :items
 - has_many :purchases
-- has_one :address
 
 
 ## items テーブル
 
-| Column       | Type      | Options                                     |
-| ------------ | --------- | ------------------------------------------- |
-| name         | string    | null: false                                 |
-| introduction | text      | null: false                                 |
-| item_profile | text      | null: false                                 |
-| category     | string    | null: false                                 |
-| status       | string    | null: false                                 |
-| price        | integer   | null: false                                 |
-| user_id      | reference | reference | null: false, foreign_key: true  |
+| Column        | Type      | Options                                     |
+| ------------- | --------- | ------------------------------------------- |
+| name          | string    | null: false                                 |
+| introduction  | text      | null: false                                 |
+| category      | integer   | null: false                                 |
+| status        | integer   | null: false                                 |
+| shipping_fee  | integer   | null: false                                 |
+| send_from     | integer   | null: false                                 |
+| shipping_days | integer   | null: false                                 |
+| price         | integer   | null: false                                 |
+| user_id       | reference | reference | null: false, foreign_key: true  |
 
 - has_one :purchase
 - belongs_to :user
-- has_one :address
 
 
 ## purchases テーブル
 | Column     | Type      | Options                         |
 | ---------- | --------- | ------------------------------- |
-| address_id | reference | null: false, foreign_key: true  |
 | user_id    | reference | null: false, foreign_key: true  |
 | item_id    | reference | null: false, foreign_key: true  |
 
 - belongs_to :user
 - belongs_to :item
-- belongs_to :address
+- has_one    :address
 
 
 ## addresses テーブル
-| Column  | Type      | Options                         |
-| ------- | --------- | ------------------------------- |
-| address | text      | null:false                      |
-| user_id | reference | null: false, foreign_key: true  |
-| item_id | reference | null: false, foreign_key: true  |
+| Column          | Type      | Options                         |
+| --------------- | --------- | ------------------------------- |
+| post_number     | integer   | null:false                      |
+| prefecture      | integer   | null:false                      |
+| village_name    | string    | null:false                      |
+| village_number  | string    | null:false                      |
+| building_detail | string    | null:false                      |
+| tele_number     | integer   | null:false                      |
+| user_id         | reference | null: false, foreign_key: true  |
+| item_id         | reference | null: false, foreign_key: true  |
+| purchase_id     | reference | null: false, foreign_key: true  |
 
-- belongs_to :user
-- belongs_to :item
-- has_one :purchase
+- belongs_to :purchase
