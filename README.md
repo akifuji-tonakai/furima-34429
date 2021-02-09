@@ -21,27 +21,27 @@
 
 ## items テーブル
 
-| Column        | Type      | Options                                     |
-| ------------- | --------- | ------------------------------------------- |
-| name          | string    | null: false                                 |
-| introduction  | text      | null: false                                 |
-| category      | integer   | null: false                                 |
-| status        | integer   | null: false                                 |
-| shipping_fee  | integer   | null: false                                 |
-| send_from     | integer   | null: false                                 |
-| shipping_days | integer   | null: false                                 |
-| price         | integer   | null: false                                 |
-| user_id       | reference | reference | null: false, foreign_key: true  |
+| Column           | Type      | Options                                     |
+| ---------------- | --------- | ------------------------------------------- |
+| name             | string    | null: false                                 |
+| introduction     | text      | null: false                                 |
+| category_id      | integer   | null: false                                 |
+| status_id        | integer   | null: false                                 |
+| shipping_fee_id  | integer   | null: false                                 |
+| send_from_id     | integer   | null: false                                 |
+| shipping_days_id | integer   | null: false                                 |
+| price            | integer   | null: false                                 |
+| user             | reference | reference | null: false, foreign_key: true  |
 
 - has_one :purchase
 - belongs_to :user
 
 
 ## purchases テーブル
-| Column     | Type      | Options                         |
+| Column | Type      | Options                         |
 | ---------- | --------- | ------------------------------- |
-| user_id    | reference | null: false, foreign_key: true  |
-| item_id    | reference | null: false, foreign_key: true  |
+| user   | reference | null: false, foreign_key: true  |
+| item   | reference | null: false, foreign_key: true  |
 
 - belongs_to :user
 - belongs_to :item
@@ -51,14 +51,12 @@
 ## addresses テーブル
 | Column          | Type      | Options                         |
 | --------------- | --------- | ------------------------------- |
-| post_number     | integer   | null:false                      |
-| prefecture      | integer   | null:false                      |
+| post_number     | string    | null:false                      |
+| prefecture _id  | integer   | null:false                      |
 | village_name    | string    | null:false                      |
 | village_number  | string    | null:false                      |
-| building_detail | string    | null:false                      |
-| tele_number     | integer   | null:false                      |
-| user_id         | reference | null: false, foreign_key: true  |
-| item_id         | reference | null: false, foreign_key: true  |
-| purchase_id     | reference | null: false, foreign_key: true  |
+| building_detail | string    |                                 |
+| tele_number     | string    | null:false                      |
+| purchase        | reference | null: false, foreign_key: true  |
 
 - belongs_to :purchase
