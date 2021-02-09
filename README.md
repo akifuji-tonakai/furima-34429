@@ -1,24 +1,58 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# テーブル設計
 
-Things you may want to cover:
+## users テーブル
 
-* Ruby version
+| Column    | Type    | Options                   |
+| --------- | ------- | ------------------------- |
+| nickname  | string  | null: false, unique: true |
+| email     | string  | null: false               |
+| password  | string  | null: false               |
+| birthday  | integer | null: false               |
+| real_name | string  | null: false               |
 
-* System dependencies
+- has_many :items
+- has_many :purchases
+- has_one :address
 
-* Configuration
 
-* Database creation
+## items テーブル
 
-* Database initialization
+| Column       | Type      | Options                                     |
+| ------------ | --------- | ------------------------------------------- |
+| name         | string    | null: false                                 |
+| introduction | text      | null: false                                 |
+| item_profile | text      | null: false                                 |
+| category     | string    | null: false                                 |
+| status       | string    | null: false                                 |
+| price        | integer   | null: false                                 |
+| user_id      | reference | reference | null: false, foreign_key: true  |
 
-* How to run the test suite
+- has_one :purchase
+- belongs_to :user
+- has_one :address
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+## purchases テーブル
+| Column     | Type      | Options                         |
+| ---------- | --------- | ------------------------------- |
+| address_id | reference | null: false, foreign_key: true  |
+| user_id    | reference | null: false, foreign_key: true  |
+| item_id    | reference | null: false, foreign_key: true  |
 
-* ...
+- belongs_to :user
+- belongs_to :item
+- belongs_to :address
+
+
+## addresses テーブル
+| Column  | Type      | Options                         |
+| ------- | --------- | ------------------------------- |
+| address | text      | null:false                      |
+| user_id | reference | null: false, foreign_key: true  |
+| item_id | reference | null: false, foreign_key: true  |
+
+- belongs_to :user
+- belongs_to :item
+- has_one :purchase
