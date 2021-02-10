@@ -1,5 +1,7 @@
 class Item < ApplicationRecord
   belongs_to :user, dependent: :destroy
+  has_one_attached :item_image
+
   extend ActiveHash::Associations::ActiveRecordExtensions
   has_one :category, dependent: :destroy
   has_one :status, dependent: :destroy
@@ -9,8 +11,9 @@ class Item < ApplicationRecord
 
   with_options presence: true do
     validates :name, length:{ maximum: 40 }
+    validates :item_image
     validates :introduction, length: { maximum: 1000 }
-    validates :price, numericality: { only_integer: true }
+    validates :price, numericality: { only_integer: true, message: "Half-width number" }, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999, message: "Is in incorrect range"} 
     with_options numericality: { other_than: 1, message: "Should be selected" } do
       validates :category_id
       validates :status_id
