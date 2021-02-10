@@ -73,7 +73,6 @@ RSpec.describe User, type: :model do
       it 'パスワードには英数字どちらも含まれていないと登録できない' do
         @user.password = "aaaaAAAA"
         @user.valid?
-        binding.pry
         expect(@user.errors.full_messages).to include("Password Include both letters and numbers")
       end
       it 'パスワードは６文字未満だと登録できない' do
