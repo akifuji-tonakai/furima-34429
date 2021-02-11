@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
   before_action :get_record, only: [:show, :edit, :update]
+  before_action :get_away, only: :edit
 
   def index
     @items = Item.includes(:user).order(created_at: "DESC")
@@ -42,5 +43,11 @@ class ItemsController < ApplicationController
   
   def get_record
     @item = Item.find(params[:id])
+  end
+
+  def get_away
+    unless user_signed_in? && current_user == @item.user
+      redirect_to root_path
+    end
   end
 end
