@@ -15,7 +15,7 @@ RSpec.describe Item, type: :model do
         expect(@item).to be_valid
       end
       it '商品紹介が1000字で登録できた' do
-        @item.introduction = Faker::Number.number(digits: 100)
+        @item.introduction = Faker::Number.number(digits: 1000)
         expect(@item).to be_valid
       end
       it '値段を300と記入し正常に商品登録できた' do
