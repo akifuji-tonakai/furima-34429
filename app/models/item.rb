@@ -3,11 +3,11 @@ class Item < ApplicationRecord
   has_one_attached :item_image
 
   extend ActiveHash::Associations::ActiveRecordExtensions
-  has_one :category, dependent: :destroy
-  has_one :status, dependent: :destroy
-  has_one :shipping_fee, dependent: :destroy
-  has_one :send_from,  dependent: :destroy
-  has_one :shipping_days, dependent: :destroy
+  belongs_to_active_hash :category, dependent: :destroy
+  belongs_to_active_hash :status, dependent: :destroy
+  belongs_to_active_hash :shipping_fee, dependent: :destroy
+  belongs_to_active_hash :send_from,  dependent: :destroy
+  belongs_to_active_hash :shipping_days, dependent: :destroy
 
   with_options presence: true do
     validates :name, length:{ maximum: 40 }
