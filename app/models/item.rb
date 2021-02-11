@@ -13,7 +13,7 @@ class Item < ApplicationRecord
     validates :name, length:{ maximum: 40 }
     validates :item_image
     validates :introduction, length: { maximum: 1000 }
-    validates :price, numericality: { only_integer: true, message: "Half-width number" }, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999, message: "Is in incorrect range"} 
+    validates :price, format: { with: /\A[0-9]+\z/, message: "Half-width number" }, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999, message: "Is in incorrect range"} 
     with_options numericality: { other_than: 1, message: "Should be selected" } do
       validates :category_id
       validates :status_id
