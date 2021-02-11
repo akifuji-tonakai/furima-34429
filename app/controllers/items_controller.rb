@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :edit]
   before_action :get_record, only: [:show, :edit, :update]
   before_action :get_away, only: :edit
 
@@ -46,7 +46,7 @@ class ItemsController < ApplicationController
   end
 
   def get_away
-    unless user_signed_in? && current_user == @item.user
+    unless current_user == @item.user
       redirect_to root_path
     end
   end
