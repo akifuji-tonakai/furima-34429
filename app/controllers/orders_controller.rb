@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :get_item_params, only: [:index,:create]
+  before_action :get_away, only: :index
 
   def index
     @order_address = OrderAddress.new
@@ -34,4 +35,12 @@ class OrdersController < ApplicationController
         currency: 'jpy'
       )
   end
+  def get_away
+    if user_signed_in? && @item.user.id != current_user.id && @item.order.blank?
+      # 可読性を高めるためにif文で記述 フィルター通過後のここは無処理
+    else
+      redirect_to root_path
+    end
+  end
+
 end
