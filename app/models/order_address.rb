@@ -16,4 +16,4 @@ class OrderAddress
     Address.create(post_number: post_number, send_from_id: send_from_id, village_name: village_name, village_number: village_number, building_detail: building_detail, tele_number: tele_number, order_id: order.id)
   end
 
-  end
+end
