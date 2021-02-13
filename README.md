@@ -52,7 +52,7 @@
 | Column          | Type       | Options                         |
 | --------------- | ---------- | ------------------------------- |
 | post_number     | string     | null:false                      |
-| prefecture_id   | integer    | null:false                      |
+| send_from_id    | integer    | null:false                      |
 | village_name    | string     | null:false                      |
 | village_number  | string     | null:false                      |
 | building_detail | string     |                                 |
