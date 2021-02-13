@@ -3,7 +3,7 @@ class OrderAddress
   attr_accessor :token, :user_id, :item_id, :post_number, :send_from_id, :village_name, :village_number, :building_detail, :tele_number
 
   with_options presence: true do
-    validates :token, format:{ with: "Credit incorrect" }
+    validates :token
     validates :post_number, format: {with: /\A\d{3}-\d{4}\z/, message: "Should input correctly including '-' "}, length:{ minimum: 8}
     validates :tele_number, numericality: { only_integer: true, message: "only Number" }, length: { minimum: 9, maximum: 11 }
     validates :village_name
