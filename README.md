@@ -16,7 +16,7 @@
 | family_furigana    | string  | null: false               |
 
 - has_many :items
-- has_many :purchases
+- has_many :orders
 
 
 ## items テーブル
@@ -33,11 +33,11 @@
 | price            | integer    | null: false                    |
 | user             | references | null: false, foreign_key: true |
 
-- has_one :purchase
+- has_one :order
 - belongs_to :user
 
 
-## purchases テーブル
+## order テーブル
 | Column | Type       | Options                         |
 | ------ | ---------- | ------------------------------- |
 | user   | references | null: false, foreign_key: true  |
@@ -52,11 +52,11 @@
 | Column          | Type       | Options                         |
 | --------------- | ---------- | ------------------------------- |
 | post_number     | string     | null:false                      |
-| prefecture _id  | integer    | null:false                      |
+| send_from_id    | integer    | null:false                      |
 | village_name    | string     | null:false                      |
 | village_number  | string     | null:false                      |
 | building_detail | string     |                                 |
 | tele_number     | string     | null:false                      |
-| purchase        | references | null: false, foreign_key: true  |
+| order           | references | null: false, foreign_key: true  |
 
-- belongs_to :purchase
+- belongs_to :order
