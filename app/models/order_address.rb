@@ -14,7 +14,7 @@ class OrderAddress
   validates :send_from_id, numericality: { other_than: 1, message:"Should be selected" }
 
   def saved
-    order = Order.create(user_id: user_id, item_id: item_id, token: token)
+    order = Order.create(user_id: user_id, item_id: item_id)
     Address.create(post_number: post_number, send_from_id: send_from_id, village_name: village_name, village_number: village_number, building_detail: building_detail, tele_number: tele_number, order_id: order.id)
   end
 
