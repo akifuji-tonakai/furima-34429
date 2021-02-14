@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe OrderAddress, type: :model do
   before do
-    @ordadd = FactoryBot.build(:order_address)
+    @ordadd = FactoryBot.build(:order_address, user_id: Faker::Number.number(digits: 2), item_id: Faker::Number.number(digits: 3))
   end
 
   describe '購入処理テスト' do
