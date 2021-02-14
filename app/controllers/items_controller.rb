@@ -49,7 +49,8 @@ class ItemsController < ApplicationController
   end
 
   def get_away
-    unless current_user == @item.user
+    if current_user == @item.user && @item.order.blank?
+    else 
       redirect_to root_path
     end
   end
