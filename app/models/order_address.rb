@@ -4,6 +4,8 @@ class OrderAddress
 
   with_options presence: true do
     validates :token
+    validates :item_id
+    validates :user_id
     validates :post_number, format: {with: /\A\d{3}-\d{4}\z/, message: "Should input correctly including '-' "}, length:{ minimum: 8}
     validates :tele_number, numericality: { only_integer: true, message: "only Number" }, length: { minimum: 9, maximum: 11 }
     validates :village_name

@@ -14,6 +14,10 @@ RSpec.describe OrderAddress, type: :model do
         @ordadd.tele_number = "012345678"
         expect(@ordadd).to be_valid
       end
+      it '建物名がなくても購入できた' do
+       @ordadd.building_detail = ""
+       expect(@ordadd).to be_valid 
+      end
     end
     
     context '購入処理出来なかった' do
@@ -71,6 +75,16 @@ RSpec.describe OrderAddress, type: :model do
         @ordadd.token = ""
         @ordadd.valid?
         expect(@ordadd.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'user_idがなかった' do
+        @ordadd.user_id = ""
+        @ordadd.valid?
+        expect(@ordadd.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idがなかった' do
+        @ordadd.item_id = ""
+        @ordadd.valid?
+        expect(@ordadd.errors.full_messages).to include("Item can't be blank")
       end
     end
 

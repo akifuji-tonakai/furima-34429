@@ -6,5 +6,8 @@ FactoryBot.define do
     village_number           {Faker::Nation.capital_city}
     tele_number              {Faker::Number.leading_zero_number(digits: 9)}
     token                    {"tok_abcdefghijk00000000000000000"}
+    building_detail          {Faker::Nation.capital_city}
+    user_id                  {Faker::Number.number(digits: 2)}
+    item_id                  {Faker::Number.number(digits: 2)}
   end
 end
