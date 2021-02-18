@@ -1,6 +1,6 @@
 <%= render "shared/header" %>
 <div class='main'>
-
+<% unless user_signed_in? %>
   <%# 画面上部の「人生を変えるフリマアプリ」帯部分 %>
   <div class='title-contents'>
     <h2 class='service-title'>
@@ -119,6 +119,7 @@
     </ul>
   </div>
   <%# /FURIMAの特徴 %>
+  <% end %>
 
   <%# 商品一覧 %>
   <div class='item-contents'>
