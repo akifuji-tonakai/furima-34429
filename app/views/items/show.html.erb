@@ -32,6 +32,21 @@
     <%= link_to "購入画面に進む", item_orders_path(@item.id) ,class:"item-red-btn"%>
     <% end %>
 
+<%# チャットルーム案内 %>
+<% if user_signed_in? && @item.room.blank? && current_user.id != @item.user.id%>
+  <%= form_with model:[@item, @room], local: true do |f| %>
+   <input name="room[user_ids][]" type="hidden" value=<%= @item.user.id %>>
+   <input name="room[user_ids][]" type="hidden" value=<%= current_user.id %>>
+   <%= f.submit '送信' %>
+  <% end %>
+<% end %>
+
+
+<% if user_signed_in? && @item.room.present? && @item.room.users.ids.include?(current_user.id) %>
+  <%= link_to "チャットルームへようこそ", item_chats_path(@item.id), {method: :get} %>
+<% end %>
+<%# チャットルーム案内 %>
+
     <div class="item-explain-box">
       <span><%= @item.introduction %></span>
     </div>
