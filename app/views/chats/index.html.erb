@@ -1,0 +1,122 @@
+<%= render "shared/header" %>
+
+<div class='wrap'>
+
+  <div class='chat_full_box'>
+    <div class='chat_left_info_box'>
+      <div class='chat_item_box'>
+               <div class='item_name'>
+                    <%= link_to @item.name, item_path(@item.id) %>
+               </div>
+
+         <%= link_to (image_tag @item.item_image, class:"chat_item_image"), item_path(@item.id) %>
+              <div class='item_price'>
+                 価格：<span class='item_price_detail'><%= @item.price %></span>円
+              </div>
+
+             <ul class='item_info'>
+               <li><%= @item.category.name %></li>
+               <li><%= @item.status.name %></li>
+               <li><%= @item.shipping_fee.name %></li>
+             </ul>
+
+       </div>
+
+       <div class='chat_user_box'>
+                  <% @room.room_users.each do |room_user| %>
+                    <% if room_user.user.id != @item.user.id %>
+          <div class='buyer_name_info'>
+            <span class="customer_moji">購入希望者</span><br>
+            <%= link_to room_user.user.nickname, '#', {class:"customer_link"} %>
+          </div>
+                    <% else %>
+          <div class='seller_name_info'>
+             <span class="customer_moji">出品者</span><br>
+             <%= link_to room_user.user.nickname, '#', {class:"customer_link"} %>
+          </div>
+                    <% end %>
+                <% end %>
+          <div class='buy_item_box'>
+             <%= link_to "購入" ,  item_orders_path(@item.id), {class:'buy_item_btn'}%>
+          </div>
+        </div>
+    </div>
+
+    <div class='chat_main_box'>
+       <div class='chat_header'>
+           購入希望者がコメントすると、チャットルームが開設されます
+       </div>
+
+<%= link_to 'ルーム削除', item_room_path(@item.id,@room.id) , method: :DELETE %>
+
+       <div class='chats_messages'>
+
+RoomNo.<%= @room.id %>
+           <% @chats.each do |chat| %> 
+           <% if chat.room_id == @room.id %>
+              <div class='chat_box'>
+                 <div class='chat_message_user'>
+                     <%= chat.user.nickname %>
+                 </div>
+                 <div class='chat_message'>
+                     <%= chat.content %>
+                 </div>
+              </div>
+           <% end %>
+           <% end %>
+                <% if @item.ex_price.present? %>
+                   <%= @item.ex_price.etcprice %>円を提示しました
+                <% end %>
+          <%# 希望値下げ価格提示 %>
+          <div class='suppose_ex_price_box'>
+                <% if @item.ex_price.present? %>
+                    <div class='suppose_ex_price_value'>
+                        <%= @item.ex_price.etcprice  %>円
+                    </div>
+                    <% if current_user.id == @item.user.id %>
+                      <div class='ex_price_accept'>
+                         <%= button_to "了承", item_ex_price_path(@item.id,@item.ex_price.id), method: :patch %>
+                      </div>
+                      <div class='ex_price_deny'>
+                          <%= button_to '断固拒否', item_ex_price_path(@item.id,@item.ex_price.id), method: :delete %>
+                      </div>
+                    <% end %>    
+               <% end %>
+          </div>
+          <%# 希望値下げ価格提示 %>
+
+       </div>
+       
+       <div class='form-box'>
+           <div class='ex_price_box'>
+               <%= form_with model: [@item, @ex_price], local: true do |f| %>
+               <%= f.text_field :etcprice, id:'ex-price', class:'ex_price', placeholder:"希望額を入力しよう" %>
+               <%= f.submit '送信', id: 'submit' %>
+               <% end %>
+           </div>
+                   <%= form_with model: [@item, @chat], local: true do |f| %>
+           <div class='text_box'>
+                <div class='text_input_box'>
+                   <%= f.text_area :content, id:'content', class:"text_input", placeholder:"チャットをしよう*入力必須" %>
+                </div>
+                <div class='sub_btn'>
+                   <%= f.submit '送信', id: 'submit' %>
+                </div>
+           </div>
+           <% end %>
+        </div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+<%= render "shared/footer" %>
