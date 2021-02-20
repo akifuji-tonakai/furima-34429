@@ -1,5 +1,5 @@
 <%= render "shared/header" %>
-
+<%= @room.users.ids %>
 <div class='wrap'>
 
   <div class='chat_full_box'>
@@ -26,87 +26,108 @@
                   <% @room.room_users.each do |room_user| %>
                     <% if room_user.user.id != @item.user.id %>
           <div class='buyer_name_info'>
-            <span class="customer_moji">購入希望者</span><br>
+            <span>購入希望者</span><br>
             <%= link_to room_user.user.nickname, '#', {class:"customer_link"} %>
           </div>
                     <% else %>
           <div class='seller_name_info'>
-             <span class="customer_moji">出品者</span><br>
+             <span>出品者</span><br>
              <%= link_to room_user.user.nickname, '#', {class:"customer_link"} %>
           </div>
                     <% end %>
                 <% end %>
-          <div class='buy_item_box'>
+        </div>
+         <div class='buy_item_box'>
              <%= link_to "購入" ,  item_orders_path(@item.id), {class:'buy_item_btn'}%>
           </div>
-        </div>
     </div>
 
     <div class='chat_main_box'>
        <div class='chat_header'>
-           購入希望者がコメントすると、チャットルームが開設されます
+          <p>Room_No.<%= @room.id %></p>
+          <div class='room_delete_link'>
+              <%= link_to 'ルーム削除', item_room_path(@item.id,@room.id) , method: :DELETE %>
+          </div>
        </div>
-
-<%= link_to 'ルーム削除', item_room_path(@item.id,@room.id) , method: :DELETE %>
-
-       <div class='chats_messages'>
-
-RoomNo.<%= @room.id %>
+       
+       <div class='chats_messages_twitter'>
+ <div class='chats_messages_box'>
+          <div class='chats_messages'>
            <% @chats.each do |chat| %> 
-           <% if chat.room_id == @room.id %>
               <div class='chat_box'>
+              <% if current_user.id != chat.user.id %>
                  <div class='chat_message_user'>
                      <%= chat.user.nickname %>
                  </div>
-                 <div class='chat_message'>
+                 <div class='your_message'>
                      <%= chat.content %>
                  </div>
+                 <% else %>
+                 <div class='my_message'>
+                     じぶん：  <%= chat.content %>
+                 </div>
+                 <% end %>
               </div>
            <% end %>
-           <% end %>
                 <% if @item.ex_price.present? %>
-                   <%= @item.ex_price.etcprice %>円を提示しました
+                    <% if current_user.id != @item.user.id %>
+                          <div class='suppose_conform'>
+                              <%= @item.ex_price.etcprice %>円を提示しました
+                          </div>
+                    <% else %>
+                          <div class='suppose_conform'>
+                              <%= @item.ex_price.etcprice %>円を提示されました
+                          </div>
+                    <% end %>
                 <% end %>
+      
+</div>
           <%# 希望値下げ価格提示 %>
-          <div class='suppose_ex_price_box'>
-                <% if @item.ex_price.present? %>
+          <% if @item.ex_price.present? && current_user.id == @item.user.id %>
+             <div class='suppose_ex_price_box'>
+                  
                     <div class='suppose_ex_price_value'>
-                        <%= @item.ex_price.etcprice  %>円
+                           <%= @item.ex_price.etcprice  %>円
                     </div>
                     <% if current_user.id == @item.user.id %>
-                      <div class='ex_price_accept'>
-                         <%= button_to "了承", item_ex_price_path(@item.id,@item.ex_price.id), method: :patch %>
-                      </div>
-                      <div class='ex_price_deny'>
-                          <%= button_to '断固拒否', item_ex_price_path(@item.id,@item.ex_price.id), method: :delete %>
-                      </div>
+                     <div class='accept_box'>
+                         <dfn><abbr title=了承を押すと金額が変更されます><%= button_to "了承", item_ex_price_path(@item.id,@item.ex_price.id), { method: :patch, class: "accept_btn", id: "accept" } %></abbr></dfn>
+                     </div>
+                     <div class='deny_box'>
+                          <%= button_to '断固拒否', item_ex_price_path(@item.id,@item.ex_price.id), { method: :delete, class: "deny_btn", id:"deny" }%>
+                     </div>
                     <% end %>    
-               <% end %>
-          </div>
+             </div>
+          <% end %>
           <%# 希望値下げ価格提示 %>
 
-       </div>
-       
-       <div class='form-box'>
-           <div class='ex_price_box'>
-               <%= form_with model: [@item, @ex_price], local: true do |f| %>
-               <%= f.text_field :etcprice, id:'ex-price', class:'ex_price', placeholder:"希望額を入力しよう" %>
-               <%= f.submit '送信', id: 'submit' %>
-               <% end %>
+          </div>
+         </div>
+       <div class='form_box'>
+       <% if current_user.id != @item.user.id && @item.ex_price.blank? %>
+            <div class='ex_price_form'>
+                <%= form_with model: [@item, @ex_price], local: true do |f| %>
+                <%= f.text_field :etcprice, id:'ex-price', class:'ex_price', placeholder:"希望額を入力しよう" %>
+                <%= f.submit '送信', id: 'submit' %>
+                <% end %>
+            </div>
+            <% end %>
+            <div class='text_box'>
+                 <div class='text_input_box'>
+                       <%= form_with model: [@item, @chat], local: true do |f| %>
+                       <%= f.text_area :content, id:'content', class:"text_input", placeholder:"チャットをしよう*入力必須" %>
+                 </div>
+                 <div class='sub_btn'>
+                       <%= f.submit '送信', id: 'submit' %>
+                 </div>
+                       <% end %>
            </div>
-                   <%= form_with model: [@item, @chat], local: true do |f| %>
-           <div class='text_box'>
-                <div class='text_input_box'>
-                   <%= f.text_area :content, id:'content', class:"text_input", placeholder:"チャットをしよう*入力必須" %>
-                </div>
-                <div class='sub_btn'>
-                   <%= f.submit '送信', id: 'submit' %>
-                </div>
-           </div>
-           <% end %>
         </div>
     </div>
-
+<div class='twitter'>
+          <p>twitter</p>
+          <a class="twitter-timeline" data-lang="ja" data-width="400" data-height="600" data-dnt="true" data-theme="dark" href="https://twitter.com/TwitterDevJP?ref_src=twsrc%5Etfw">Tweets by TwitterDevJP</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+          </div>
   </div>
 
 
