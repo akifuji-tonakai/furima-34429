@@ -1,4 +1,5 @@
 {
+  "editor.formatOnSave": true, // ファイル保存時に自動フォーマット
   "beautify.language": {
     "js": {
       "type": ["javascript", "json"],
@@ -11,4 +12,3 @@
     // ^^ providing just an array sets the VS Code file type
   }
 }
-
