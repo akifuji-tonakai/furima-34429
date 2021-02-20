@@ -10,7 +10,6 @@ class ExPricesController < ApplicationController
     end
   end
   def update
-    @item = Item.find(params[:item_id])
     if @item.price.to_i > @item.ex_price.etcprice.to_i
     @item.update(price: @item.ex_price.etcprice)
     end
@@ -35,7 +34,8 @@ class ExPricesController < ApplicationController
     @chats = Chat.where(room_id: room_id).includes(:user)
   end
   def get_away
-    if @item.user.id == current_user.id
+    @item = Item.find(params[:item_id])
+    if user_signed_in? && @item.user.id == current_user.id
     else
       redirect_to root_path
     end
