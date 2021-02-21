@@ -1,0 +1,14 @@
+{
+  "editor.formatOnSave": true, // ファイル保存時に自動フォーマット
+  "beautify.language": {
+    "js": {
+      "type": ["javascript", "json"],
+      "filename": [".jshintrc", ".jsbeautifyrc"]
+      // "ext": ["js", "json"]
+      // ^^ to set extensions to be beautified using the javascript beautifier
+    },
+    "css": ["css", "scss"],
+    "html": ["htm", "html", "erb"] //"erb"を追加
+    // ^^ providing just an array sets the VS Code file type
+  }
+}
